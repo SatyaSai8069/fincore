@@ -1,4 +1,4 @@
-from collections.abc import AsyncGenerator
+﻿from collections.abc import AsyncGenerator
 from pathlib import Path
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (
@@ -7,28 +7,11 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import DeclarativeBase
-from app.core.config import get_settings
-
-settings = get_settings()
 
 DB_FILE_PATH = Path(__file__).resolve().parents[2] / "finora_dev.db"
-ACTIVE_URL = (
-    f"sqlite+aiosqlite:///{DB_FILE_PATH.as_posix()}"
-    if settings.USE_SQLITE_FALLBACK
-    else settings.DATABASE_URL
-)
+ACTIVE_URL = f"sqlite+aiosqlite:///{DB_FILE_PATH.as_posix()}"
 
-engine_kwargs = {
-    "echo": False,
-    "future": True,
-}
-
-if not ACTIVE_URL.startswith("sqlite"):
-    engine_kwargs["pool_pre_ping"] = True
-    engine_kwargs["pool_size"] = 10
-    engine_kwargs["max_overflow"] = 20
-
-engine = create_async_engine(ACTIVE_URL, **engine_kwargs)
+engine = create_async_engine(ACTIVE_URL, echo=False, future=True)
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
