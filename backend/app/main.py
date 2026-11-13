@@ -6,7 +6,10 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import get_settings
 from app.core.logging import setup_logging
+from app.db.session import Base, engine
+from app.models import user as _user_models  # noqa: F401
 from app.api.v1.health import router as health_router
+from app.api.v1.auth import router as auth_router
 
 settings = get_settings()
 setup_logging(debug=settings.DEBUG)
@@ -16,6 +19,8 @@ logger = logging.getLogger("finora.middleware")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting FINORA Digital Banking Platform API")
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
     yield
     logger.info("Shutting down FINORA Digital Banking Platform API")
 
@@ -55,6 +60,7 @@ async def add_security_and_tracing_headers(request: Request, call_next):
 
 
 app.include_router(health_router, prefix=settings.API_V1_PREFIX)
+app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/")
