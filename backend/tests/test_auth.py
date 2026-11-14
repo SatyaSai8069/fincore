@@ -1,3 +1,4 @@
+import uuid
 import pyotp
 from fastapi.testclient import TestClient
 from app.main import app
@@ -5,7 +6,7 @@ from app.main import app
 
 def test_register_login_mfa_and_rbac():
     with TestClient(app) as client:
-        email = "satya.finora@example.com"
+        email = f"satya.{uuid.uuid4().hex[:6]}@example.com"
         password = "Password123"
 
         # 1. Register customer
@@ -19,7 +20,7 @@ def test_register_login_mfa_and_rbac():
                 "kyc_document_ref": "KYC-DEMO-101",
             },
         )
-        assert reg.status_code in (201, 409)
+        assert reg.status_code == 201
 
         # 2. Login
         login_res = client.post(
