@@ -10,10 +10,13 @@ from app.db.session import Base, engine
 from app.models import user as _user_models  # noqa: F401
 from app.models import ledger as _ledger_models  # noqa: F401
 from app.models import beneficiary as _beneficiary_models  # noqa: F401
+from app.models import loan as _loan_models  # noqa: F401
+from app.models import risk as _risk_models  # noqa: F401
 from app.api.v1.health import router as health_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.accounts import router as accounts_router
 from app.api.v1.transactions import router as transactions_router
+from app.api.v1.loans_risk import router as loans_risk_router
 
 settings = get_settings()
 setup_logging(debug=settings.DEBUG)
@@ -67,6 +70,7 @@ app.include_router(health_router, prefix=settings.API_V1_PREFIX)
 app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
 app.include_router(accounts_router, prefix=settings.API_V1_PREFIX)
 app.include_router(transactions_router, prefix=settings.API_V1_PREFIX)
+app.include_router(loans_risk_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/")
