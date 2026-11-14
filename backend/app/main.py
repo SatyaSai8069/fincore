@@ -18,6 +18,7 @@ from app.api.v1.accounts import router as accounts_router
 from app.api.v1.transactions import router as transactions_router
 from app.api.v1.loans_risk import router as loans_risk_router
 from app.api.v1.intelligence import router as intelligence_router
+from app.api.v1.admin import router as admin_router
 
 settings = get_settings()
 setup_logging(debug=settings.DEBUG)
@@ -73,6 +74,7 @@ app.include_router(accounts_router, prefix=settings.API_V1_PREFIX)
 app.include_router(transactions_router, prefix=settings.API_V1_PREFIX)
 app.include_router(loans_risk_router, prefix=settings.API_V1_PREFIX)
 app.include_router(intelligence_router, prefix=settings.API_V1_PREFIX)
+app.include_router(admin_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/")
