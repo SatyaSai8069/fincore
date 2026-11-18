@@ -9,7 +9,7 @@ import {
     ResponsiveContainer, Tooltip, XAxis, YAxis
 } from 'recharts';
 
-const API_BASE = "http://localhost:8000/api/v1";
+const API_BASE = import.meta.env.VITE_API_URL || "https://fincore-backend-4fi9.onrender.com/api/v1";
 const FX_TO_INR: Record<string, number> = { INR: 1, USD: 84.2, EUR: 91.5, GBP: 106.8 };
 const CURRENCY_SYMBOL: Record<string, string> = { INR: '₹', USD: '$', EUR: '€', GBP: '£' };
 
