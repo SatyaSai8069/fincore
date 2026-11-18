@@ -1,3 +1,8 @@
+# Financial Intelligence & Machine Learning
+# pandas==2.2.3
+# numpy==2.2.1
+# scikit-learn==1.6.0
+
 # Web Framework & Validation
 fastapi==0.115.6
 uvicorn[standard]==0.34.0
